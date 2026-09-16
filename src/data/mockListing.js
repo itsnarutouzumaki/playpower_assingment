@@ -1,6 +1,39 @@
 /**
- * Listing content kept separate from presentation components.
- * Source: https://airbnb-clone-umber-two.vercel.app/
+ * mockListing — single source of truth for all listing content and media.
+ *
+ * Why listing data is separated from components:
+ * Every presentational component (`ListingHeader`, `PhotoGrid`,
+ * `BookingCard`, `ListingDetails`, `ListingAfterCalendar`, `MeetHost`,
+ * `ListingNav`) imports from this file rather than hardcoding copy, prices,
+ * or image paths inline. That keeps the components purely about layout and
+ * interaction, and means the entire listing's content (title, host,
+ * amenities, reviews, images) can be edited or swapped for a different
+ * listing without touching any component's JSX or logic — a common pattern
+ * for keeping UI "dumb" and data-driven.
+ *
+ * Image grouping structure:
+ * - `heroImages` — the 5 photos used by `PhotoGrid`'s top hero grid (1 large
+ *   + 4 secondary).
+ * - `galleryImages` — the ordered image set `Lightbox` pages through via
+ *   `photoIndex` (see `Lightbox.jsx`); currently mirrors `heroImages`.
+ * - Bundled image imports (via Vite's asset pipeline) live under
+ *   `src/assets/romantic-jacuzzi/`, named after this particular mock
+ *   listing's content rather than the project itself — see `PhotoTour.jsx`,
+ *   which instead references category photos as plain string paths under
+ *   `public/` (kitchen/, bedroom/, pool/, etc.), a different asset-loading
+ *   strategy used for the larger "photo tour" category galleries.
+ *
+ * How components consume it:
+ * Most components destructure the single named/default export
+ * (`mockListing`) for the fields they need (e.g. `const { host } =
+ * mockListing` in `MeetHost.jsx`), so adding a new field here is
+ * additive and does not require changing any other component's imports.
+ *
+ * Source: https://airbnb-clone-umber-two.vercel.app/ (visual/content
+ * reference for this mock listing's copy and structure — see
+ * PROMPT_SEQUENCE.md for how this data was originally assembled).
+ *
+ * @author @itsnarutouzumaki
  */
 import hostMirashyaHomes from "../assets/romantic-jacuzzi/host-mirashya-homes.jpeg";
 import apartment01 from "../assets/romantic-jacuzzi/apartment-01.jpeg";

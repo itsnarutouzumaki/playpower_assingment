@@ -1,3 +1,36 @@
+/**
+ * src/index.css — global stylesheet
+ *
+ * Responsibility:
+ * Loads Tailwind (`@import "tailwindcss"`), declares the custom `@font-face`
+ * rules for Airbnb Cereal, and defines the project's design tokens as CSS
+ * custom properties on `:root` (typography scale, color palette, spacing,
+ * radii, shadows, motion durations) plus a Tailwind `@theme` block that maps
+ * the font stack into Tailwind's own font-family utility. Component-specific
+ * layout rules that don't map cleanly to Tailwind utility classes (e.g. the
+ * `.photo-tour__*` and `.lightbox__*` rule sets further down this file) also
+ * live here rather than in per-component stylesheets, since this is a
+ * single-page app with one global stylesheet rather than a
+ * CSS-Modules/styled-components setup.
+ *
+ * Why global styles exist separately from component styles:
+ * Design tokens (colors, spacing, type scale) need to be available anywhere
+ * in the app, including inside arbitrary-value Tailwind classes like
+ * `text-[15px]` used throughout the components — keeping them centralized
+ * here (rather than duplicated per component) is what lets the whole app
+ * share one consistent visual language, matching the tokens documented in
+ * `.cursor/skills/design-system/SKILL.md`.
+ *
+ * Accessibility-related global styles:
+ * The `.lightbox__*` rules (search this file for "Lightbox overlay") define
+ * the full visual presentation for `Lightbox.jsx`'s dialog, backdrop,
+ * counter, close button, and prev/next controls, including focus-visible
+ * affordances on interactive controls — these exist independently of
+ * whether `Lightbox` is currently mounted anywhere in the component tree
+ * (see the "Known constraint" note in `Lightbox.jsx`).
+ *
+ * @author @itsnarutouzumaki
+ */
 @import "tailwindcss";
 
 /* Direct Font Imports for Airbnb Cereal */
