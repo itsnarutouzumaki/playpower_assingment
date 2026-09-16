@@ -4,6 +4,40 @@ import { ChevronLeft, Share, Heart } from "lucide-react";
 import { mockListing } from "../data/mockListing";
 import { useEffect } from "react";
 
+/**
+ * PhotoTour
+ *
+ * Full-screen "show all photos" view rendered in place of the listing page
+ * (see `App.jsx`, which swaps to this component when `?photo` is present in
+ * the URL). Displays every category of listing photo (living room, kitchen,
+ * bedroom, etc.) in a jump-to-category thumbnail strip followed by a
+ * category-by-category masonry-style grid.
+ *
+ * Data source:
+ * Prefers `mockListing.photoCategories`; the large inline `categories`
+ * object below is a local fallback used only if that field is absent, so
+ * this component still renders something sensible if the data shape changes
+ * upstream.
+ *
+ * Gallery grouping algorithm:
+ * Each category's `images` array is chunked into groups of up to three for
+ * the "1 big photo + 2 small photos" layout seen in the target reference.
+ * Counts that don't divide evenly into groups of three (`total % 3 === 2`,
+ * e.g. 2, 5, 8 images) are handled as a special case: full groups of three
+ * are rendered first, and the final two images are placed together in a
+ * 2-column row instead of leaving an awkward single leftover image. This
+ * keeps every row visually balanced regardless of how many photos a
+ * category has.
+ *
+ * Keyboard/close behavior:
+ * A window-level `keydown` listener closes the tour on `Escape` via the
+ * `onClose` callback supplied by `App`. This is a standalone listener
+ * local to PhotoTour — it does not use the shared `useKeyboardNav` hook,
+ * and PhotoTour does not use `useFocusTrap`/`useScrollLock`, since it
+ * replaces the whole page (via `App`'s view swap) rather than overlaying it.
+ *
+ * @author @itsnarutouzumaki
+ */
 export default function PhotoTour({ onClose }) {
   // If mockListing data structure differs, fallback to sample room categories
   const categories = mockListing?.photoCategories || [

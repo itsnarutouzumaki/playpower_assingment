@@ -8,6 +8,34 @@ import ListingAfterCalendar from "./components/ListingAfterCalendar";
 import PhotoGrid from "./components/PhotoGrid";
 import MeetYourHost from "./components/MeetHost";
 import PhotoTour from "./components/PhotoTour";
+
+/**
+ * App
+ *
+ * Top-level component that composes the full listing page and owns the two
+ * pieces of cross-component state the page needs:
+ *
+ * 1. `showPhotoTour` — whether the full-screen Photo Tour view should be
+ *    shown in place of the listing page. This is driven by a `?photo` query
+ *    parameter rather than plain in-memory state, so the Photo Tour view is
+ *    directly linkable/shareable and survives back/forward navigation
+ *    (handled via the `popstate` listener + `checkPhotoParam`).
+ * 2. `isNavSticky` — whether the secondary sticky nav bar (`ListingNav`)
+ *    should be visible. An `IntersectionObserver` watches the wrapper div
+ *    around `PhotoGrid`; once that wrapper scrolls out of view, the sticky
+ *    nav fades/slides in. The observer is torn down and skipped entirely
+ *    while Photo Tour is open, since the sticky nav only applies to the
+ *    listing page.
+ *
+ * View flow:
+ * When `showPhotoTour` is true, `App` renders only `<PhotoTour />` and
+ * returns early — the listing page's header/nav/details/booking tree is not
+ * mounted at all while Photo Tour is active. Closing Photo Tour
+ * (`handleClosePhotos`) pops the `?photo` param off the URL and flips the
+ * flag back, remounting the listing page.
+ *
+ * @author @itsnarutouzumaki
+ */
 function App() {
   const showPhotosRef = useRef(null);
   const photoGridWrapperRef = useRef(null);

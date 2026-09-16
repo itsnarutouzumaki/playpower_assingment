@@ -1,6 +1,31 @@
 import mockListing from "../data/mockListing";
 import Icon from "./Icon";
 
+/**
+ * PhotoGrid
+ *
+ * Renders the five-image hero grid at the top of the listing page (one large
+ * hero photo plus four secondary photos) and the "Show all photos" trigger
+ * that opens the full Photo Tour view.
+ *
+ * Data flow:
+ * Images come from `mockListing.heroImages`; the first entry is destructured
+ * out as `hero` and the remaining four are mapped over as `secondary`, so
+ * reordering or resizing the hero set only requires editing the data file,
+ * not this component.
+ *
+ * Interaction contract:
+ * This component does not manage any modal/view-switch state itself — it
+ * receives `onShowPhotos` (called when the trigger button is clicked) and
+ * `showPhotosRef` (a ref forwarded from `App` and attached to this button)
+ * as props from its parent, `App`. Keeping the "is Photo Tour open" state in
+ * `App` means PhotoGrid stays a simple, presentational component; `App`
+ * currently holds `showPhotosRef` alongside that state without calling
+ * `.focus()` on it, so it is available as a hook point for focus restoration
+ * but does not perform that restoration today.
+ *
+ * @author @itsnarutouzumaki
+ */
 const PHOTO_ALTS = [
   "Living area",
   "Bedroom",
