@@ -3,6 +3,34 @@ import mockListing from "../data/mockListing";
 import Icon from "./Icon";
 import { useEffect, useState } from "react";
 
+/**
+ * ListingDetails
+ *
+ * Renders the main body of the listing page below the hero grid: host
+ * summary, highlights, description, amenities, the availability calendar,
+ * and the "show all amenities" modal — everything to the left of the sticky
+ * `BookingCard`. This is the largest component in the app because it groups
+ * several visually related sections that all read from the same
+ * `mockListing` object and appear in a single scrolling column in the
+ * reference layout; splitting it further would mean threading the same data
+ * and section-anchors through additional prop boundaries for little benefit.
+ *
+ * Local helpers defined in this file:
+ * - `AmenityIcon` — picks one of a small set of hand-drawn line icons for
+ *   the "highlights" row by index, since these highlights use bespoke
+ *   icon art rather than a Lucide icon per highlight.
+ * - `CalendarMonth` — renders one month grid for the availability calendar,
+ *   including the demo-only hardcoded selected/unavailable date logic (see
+ *   inline comments in that function) used to visually match the reference
+ *   screenshot's selected date range.
+ *
+ * State:
+ * Local `useState`/`useEffect` usage in this file backs UI-only concerns
+ * (e.g. toggling the "show all amenities" overlay), not booking data —
+ * booking data itself lives in `mockListing` and is read, not written, here.
+ *
+ * @author @itsnarutouzumaki
+ */
 function AmenityIcon({ index }) {
   const icons = [
     // 1. Outdoor entertainment (Firepit)

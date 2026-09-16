@@ -13,6 +13,27 @@ const coHosts = [
   { name: "Amisha", initial: "A", bg: "#e9efff", text: "#0b5cd9" },
 ];
 
+/**
+ * MeetYourHost (file: MeetHost.jsx)
+ *
+ * Renders the "Meet your host" section: host avatar/stats, co-host avatar
+ * stack, and host bio/response-rate details, sourced from `mockListing.host`.
+ *
+ * Note on naming:
+ * The component and its default export are named `MeetYourHost`, while the
+ * file itself is `MeetHost.jsx` (see the `import MeetYourHost from
+ * "./components/MeetHost"` in `App.jsx`). This mismatch is preserved as-is —
+ * it does not affect behavior, since JS module names are independent of the
+ * identifiers bound on import.
+ *
+ * Co-host avatars:
+ * `coHosts` is local, presentational data (not part of `mockListing`) used
+ * purely to render the avatar stack; `handleImgError`/`imgErrors` state
+ * swaps a broken avatar image for an initials fallback rather than showing a
+ * broken-image icon.
+ *
+ * @author @itsnarutouzumaki
+ */
 export default function MeetYourHost() {
   const { host } = mockListing;
   const [imgErrors, setImgErrors] = useState({});

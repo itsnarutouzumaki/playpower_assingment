@@ -2,6 +2,18 @@ import mockListing from "../data/mockListing";
 import AirbnbMark from "./AirbnbMark";
 import Icon from "./Icon";
 
+/**
+ * ListingHeader
+ *
+ * Renders the top-of-page global header (logo, search pill, account nav)
+ * plus the listing title row (title, Share/Save actions) immediately below
+ * it. These two bands are combined in one component because in the
+ * reference layout they scroll away together as a single unit before
+ * `ListingNav` (the secondary, sticky nav) takes over — see `App.jsx` for
+ * how the two are sequenced.
+ *
+ * @author @itsnarutouzumaki
+ */
 export default function ListingHeader() {
   
   return (

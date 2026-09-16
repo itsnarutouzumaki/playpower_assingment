@@ -79,6 +79,29 @@ const nearbyStays = [
 
 
 
+/**
+ * ListingFooterDetails (file: ListingFooter.jsx)
+ *
+ * Renders the "More stays nearby" horizontally-scrollable carousel plus the
+ * closing legal/footer content. Exported as `ListingFooterDetails` and
+ * imported as `ListingFooter` in `App.jsx` — an intentional-looking naming
+ * mismatch that, like `MeetHost.jsx`, is preserved unchanged since it has no
+ * effect on runtime behavior.
+ *
+ * Data:
+ * `nearbyStays` is local, presentational mock data for the carousel (not
+ * part of `mockListing`) since these "nearby" cards represent other
+ * listings, not the current one.
+ *
+ * Known constraint:
+ * Two entries in `nearbyStays` share `id: 7`. Because `id` is only used as a
+ * React list `key` candidate/display data here (not for lookups elsewhere),
+ * this does not currently cause a behavioral bug, but it is noted here as a
+ * pre-existing data inconsistency rather than something silently corrected,
+ * per the documentation-only scope of this pass.
+ *
+ * @author @itsnarutouzumaki
+ */
 export default function ListingFooterDetails() {
   const scrollContainerRef = useRef(null);
 

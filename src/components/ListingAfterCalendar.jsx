@@ -1,6 +1,23 @@
 import mockListing from "../data/mockListing";
 import Icon from "./Icon";
 
+/**
+ * ListingAfterCalendar
+ *
+ * Renders the sections that follow the booking calendar in scroll order:
+ * the ratings/reviews section (`id="reviews"`, giant rating header, review
+ * tag chips, individual review cards) and the location section
+ * (`id="location"`), both anchor targets for `ListingNav`'s section links.
+ *
+ * Data:
+ * `reviewTags` (the small chip icons/counts like "Comfort", "Cleanliness")
+ * is local presentational data rather than part of `mockListing`, since it
+ * summarizes review categories rather than describing the listing itself.
+ * `summary`, `ratingImage`, `reviews`, and `location` are read from
+ * `mockListing`.
+ *
+ * @author @itsnarutouzumaki
+ */
 const reviewTags = [
   { img: "/reviewtag/comfort.png", label: "Comfort", count: 6 },
   { img: "/reviewtag/accuracy.png", label: "Accuracy", count: 5 },

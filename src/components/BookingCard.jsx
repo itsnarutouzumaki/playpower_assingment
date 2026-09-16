@@ -1,6 +1,24 @@
 import mockListing from "../data/mockListing";
 import Icon from "./Icon";
 
+/**
+ * BookingCard
+ *
+ * Sticky reservation widget shown alongside `ListingDetails` (promo banner,
+ * price/date/guest summary, and Reserve action). Positioned with
+ * `sticky top-24` so it stays in view while the visitor scrolls through the
+ * listing description, matching the reference layout.
+ *
+ * Data flow:
+ * All display values (`booking`, `discount`) are read directly from
+ * `mockListing` — there is no local booking state. Check-in/check-out/guest
+ * "buttons" and the discount "Claim"/"Terms apply" controls render as real
+ * interactive elements (for correct semantics and focus behavior) but do not
+ * open pickers or mutate state, since date/guest selection is out of scope
+ * for this static listing-page clone.
+ *
+ * @author @itsnarutouzumaki
+ */
 export default function BookingCard() {
   const { booking, discount } = mockListing;
 

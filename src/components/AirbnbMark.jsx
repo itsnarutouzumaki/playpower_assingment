@@ -1,3 +1,13 @@
+/**
+ * AirbnbMark
+ *
+ * Renders the Airbnb "Bélo" logomark and wordmark used in `ListingHeader`.
+ * Kept as its own component (rather than inline markup in the header) so the
+ * brand mark can be reused wherever it's needed without duplicating the SVG
+ * path data.
+ *
+ * @author @itsnarutouzumaki
+ */
 export default function AirbnbMark() {
   return (
     <a 

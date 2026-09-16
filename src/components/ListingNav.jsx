@@ -1,5 +1,18 @@
 import mockListing from "../data/mockListing";
 
+/**
+ * ListingNav
+ *
+ * Secondary, section-jump navigation bar (Photos / Amenities / Reviews /
+ * Location) plus a condensed price + Reserve summary. `App.jsx` renders this
+ * inside an always-mounted wrapper whose visibility/position is toggled with
+ * Tailwind classes (`translate-y`, `opacity`) based on `isNavSticky`, rather
+ * than conditionally mounting/unmounting the component — this lets the
+ * `transition-all duration-300` classes animate the bar in and out smoothly
+ * instead of having it appear abruptly.
+ *
+ * @author @itsnarutouzumaki
+ */
 export default function ListingNav() {
   return (
     <nav
