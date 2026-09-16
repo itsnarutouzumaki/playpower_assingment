@@ -98,6 +98,14 @@ export function CalendarMonth({ title, startDay, days }) {
           const day = i + 1;
 
           // Enhanced logic to detect start vs end dates for the background pill effect
+          //
+          // Why these dates are hardcoded: this calendar renders static demo
+          // availability rather than reading from real booking data (there is
+          // no backend/date-picker state in this project). "October 2026"
+          // 18–23 and "November 2026" pre-25 are fixed strings/day numbers
+          // chosen to visually match the reference's selected-range/
+          // unavailable-range screenshot, not derived from `mockListing` or
+          // any date library.
           const isStart = title === "October 2026" && day === 18;
           const isEnd = title === "October 2026" && day === 23;
           const selected = isStart || isEnd;
