@@ -1,3 +1,4 @@
+import { useState } from "react";
 import mockListing from "../data/mockListing";
 import Icon from "./Icon";
 
@@ -33,6 +34,67 @@ const reviewTags = [
 
 export default function ListingAfterCalendar() {
   const { summary, ratingImage, reviews, location } = mockListing;
+  const [reviewSummary, setReviewSummary] = useState("");
+  const [isSummarizing, setIsSummarizing] = useState(false);
+  const [summaryError, setSummaryError] = useState("");
+
+  const summarizeReviews = async () => {
+    setIsSummarizing(true);
+    setSummaryError("");
+    console.info("[review-summary] request:start", {
+      endpoint: "/api/summarize-reviews",
+      reviewCount: reviews.length,
+    });
+
+    try {
+      const response = await fetch("/api/summarize-reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews: reviews.map((review) => review.text) }),
+      });
+      const contentType = response.headers.get("content-type");
+      const body = await response.text();
+
+      console.info("[review-summary] response:received", {
+        status: response.status,
+        ok: response.ok,
+        contentType,
+        contentLength: response.headers.get("content-length"),
+      });
+      console.info("[review-summary] response:body", {
+        bodyLength: body.length,
+        bodyPreview: body.slice(0, 200),
+      });
+
+      let result;
+      try {
+        result = body ? JSON.parse(body) : {};
+      } catch (parseError) {
+        console.error("[review-summary] response:parse-error", {
+          error: parseError.message,
+          status: response.status,
+          bodyLength: body.length,
+          bodyPreview: body.slice(0, 200),
+        });
+        throw new Error(
+          `Server returned invalid JSON (HTTP ${response.status})`,
+        );
+      }
+
+      if (!response.ok) {
+        throw new Error(result.error || "Unable to summarize reviews");
+      }
+
+      setReviewSummary(result.summary);
+    } catch (error) {
+      console.error("[review-summary] request:error", {
+        message: error.message,
+      });
+      setSummaryError(error.message || "Unable to summarize reviews");
+    } finally {
+      setIsSummarizing(false);
+    }
+  };
 
   return (
     <div className="mx-auto max-w-7xl font-sans text-[#222222]">
@@ -262,6 +324,29 @@ export default function ListingAfterCalendar() {
           ))}
         </div>
 
+        <div className="mx-8 mt-6">
+          <button
+            className="rounded-[12px] border border-black bg-white px-[20px] py-[12px] text-[16px] font-semibold text-[#222222] transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
+            type="button"
+            onClick={summarizeReviews}
+            disabled={isSummarizing}
+          >
+            {isSummarizing ? "Summarizing reviews..." : "Summarize reviews"}
+          </button>
+
+          {reviewSummary && (
+            <p className="mt-4 max-w-3xl rounded-xl bg-[#f7f7f7] px-5 py-4 text-[15px] leading-relaxed text-[#222222]">
+              {reviewSummary}
+            </p>
+          )}
+
+          {summaryError && (
+            <p className="mt-3 text-[14px] text-[#b42318]" role="alert">
+              {summaryError}
+            </p>
+          )}
+        </div>
+
         {/* 4. Review Grid */}
         <div className="mt-5 px-8 grid grid-cols-1 md:grid-cols-2 gap-x-[80px] gap-y-[44px]">
           {reviews.map((review, i) => (
@@ -289,8 +374,10 @@ export default function ListingAfterCalendar() {
                   )}
                 </div>
                 <div>
-                  <h3 className="text-[15px] font-semibold
-                   text-[#222222] leading-tight">
+                  <h3
+                    className="text-[15px] font-semibold
+                   text-[#222222] leading-tight"
+                  >
                     {review.name}
                   </h3>
                   <p className="text-[13px] text-[#717171]">{review.tenure}</p>
@@ -301,7 +388,9 @@ export default function ListingAfterCalendar() {
               <div className="flex items-center gap-1.5 text-[13px] text-[#222222] mb-1">
                 <div className="flex gap-[1px] text-[10px]">
                   {"★★★★★".split("").map((star, idx) => (
-                    <div key={idx} className="text-[12px]">{star}</div>
+                    <div key={idx} className="text-[12px]">
+                      {star}
+                    </div>
                   ))}
                 </div>
                 <span className="text-[18px] leading-none mb-1">·</span>
@@ -309,9 +398,7 @@ export default function ListingAfterCalendar() {
               </div>
 
               {/* Review Text */}
-              <p className="text-[14px]  text-[#222222] pr-4">
-                {review.text}
-              </p>
+              <p className="text-[14px]  text-[#222222] pr-4">{review.text}</p>
 
               {/* Show more button */}
               {(i === 1 || i === 3) && (

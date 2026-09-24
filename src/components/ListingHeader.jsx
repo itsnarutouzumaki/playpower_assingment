@@ -1,3 +1,4 @@
+import { useState } from "react";
 import mockListing from "../data/mockListing";
 import AirbnbMark from "./AirbnbMark";
 import Icon from "./Icon";
@@ -15,7 +16,14 @@ import Icon from "./Icon";
  * @author @itsnarutouzumaki
  */
 export default function ListingHeader() {
-  
+  const [saveState, setsaveState] = useState(false);
+
+  const saveButtonBehaviour =()=>{
+    console.log("save button is clicked")
+    setsaveState(!saveState);
+    alert(`Item is ${saveState?"saved":"Unsaved"}`);
+  }
+
   return (
     <>
       {/* Top Navigation Bar */}
@@ -100,11 +108,13 @@ export default function ListingHeader() {
             <span className="underline underline-offset-2">Share</span>
           </button>
           
-          <button className="flex items-center gap-2 pt-3 rounded-lg transition hover:bg-gray-100">
+          <button className="flex items-center gap-2 pt-3 rounded-lg transition hover:bg-gray-100"
+          onClick={saveButtonBehaviour}
+          >
             <Icon size={16} className="stroke-2">
               <path d="M20.8 4.7c-2-2-5.2-1.9-7.1.1L12 6.5l-1.7-1.7c-2-2-5.2-2.1-7.1-.1-2.1 2.2-1.9 5.7.2 7.8L12 21l8.6-8.5c2.1-2.1 2.3-5.6.2-7.8Z" strokeLinecap="round" strokeLinejoin="round" />
             </Icon>
-            <span className="underline underline-offset-2">Save</span>
+            <span className="underline underline-offset-2">{saveState ?"Saved":"Save"}</span>
           </button>
         </div>
       </div>
