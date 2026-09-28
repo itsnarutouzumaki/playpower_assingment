@@ -102,7 +102,7 @@ export default function ListingHeader({ saveState, onSave, onShare }) {
       </header>
 
       {/* Listing Heading (Retained and styled from your original code) */}
-      <div className="ml-40 mb-5 flex max-w-[1200px] items-center justify-between pt-6 md:px-10 md:pr-12 font-sans">
+      <div className="page-width mb-5 flex items-center justify-between pt-6 font-sans pb-5">
         <h1 className="text-[26px] pt-2 font-semibold text-gray-900 tracking-tight">
           {mockListing.title}
         </h1>
