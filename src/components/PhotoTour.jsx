@@ -186,9 +186,10 @@ export default function PhotoTour({
   ];
 
   const categoryStartIndexes = categories.reduce((indexes, category, index) => {
-    indexes[index] = index === 0
-      ? 0
-      : indexes[index - 1] + categories[index - 1].images.length;
+    indexes[index] =
+      index === 0
+        ? 0
+        : indexes[index - 1] + categories[index - 1].images.length;
     return indexes;
   }, []);
 
@@ -217,7 +218,9 @@ export default function PhotoTour({
 
   useEffect(() => {
     if (!targetCategory) return;
-    document.getElementById(targetCategory)?.scrollIntoView({ behavior: "smooth" });
+    document
+      .getElementById(targetCategory)
+      ?.scrollIntoView({ behavior: "smooth" });
   }, [targetCategory]);
 
   return (
@@ -248,10 +251,14 @@ export default function PhotoTour({
           <button
             className="p-2 hover:bg-gray-100 rounded-full transition"
             type="button"
-            aria-label={isSaved ? "Remove from saved places" : "Save photo tour"}
+            aria-label={
+              isSaved ? "Remove from saved places" : "Save photo tour"
+            }
             onClick={onSave}
           >
-            <Heart className={`w-4 h-4 ${isSaved ? "fill-current text-[#ff385c]" : "text-gray-800"}`} />
+            <Heart
+              className={`w-4 h-4 ${isSaved ? "fill-current text-[#ff385c]" : "text-gray-800"}`}
+            />
           </button>
         </div>
       </header>
@@ -331,10 +338,19 @@ export default function PhotoTour({
                                   <button
                                     type="button"
                                     className="h-full w-full"
-                                    onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + groupIdx * 3)}
+                                    onClick={() =>
+                                      onOpenLightbox(
+                                        categoryStartIndexes[categoryIndex] +
+                                          groupIdx * 3,
+                                      )
+                                    }
                                     aria-label={`Open ${cat.title} photo`}
                                   >
-                                    <img src={mainImage} alt="" className="w-full h-full object-cover" />
+                                    <img
+                                      src={mainImage}
+                                      alt=""
+                                      className="w-full h-full object-cover"
+                                    />
                                   </button>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
@@ -343,10 +359,21 @@ export default function PhotoTour({
                                       key={subIdx}
                                       type="button"
                                       className="h-[148px] rounded-lg overflow-hidden bg-gray-100"
-                                      onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + groupIdx * 3 + subIdx + 1)}
+                                      onClick={() =>
+                                        onOpenLightbox(
+                                          categoryStartIndexes[categoryIndex] +
+                                            groupIdx * 3 +
+                                            subIdx +
+                                            1,
+                                        )
+                                      }
                                       aria-label={`Open ${cat.title} photo`}
                                     >
-                                      <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                                      <img
+                                        src={imgUrl}
+                                        alt=""
+                                        className="w-full h-full object-cover"
+                                      />
                                     </button>
                                   ))}
                                 </div>
@@ -362,10 +389,20 @@ export default function PhotoTour({
                               key={idx}
                               type="button"
                               className="h-[148px] rounded-lg overflow-hidden bg-gray-100"
-                              onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + fullGroupsCount * 3 + idx)}
+                              onClick={() =>
+                                onOpenLightbox(
+                                  categoryStartIndexes[categoryIndex] +
+                                    fullGroupsCount * 3 +
+                                    idx,
+                                )
+                              }
                               aria-label={`Open ${cat.title} photo`}
                             >
-                              <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                              <img
+                                src={imgUrl}
+                                alt=""
+                                className="w-full h-full object-cover"
+                              />
                             </button>
                           ))}
                         </div>
@@ -389,10 +426,19 @@ export default function PhotoTour({
                               <button
                                 type="button"
                                 className="h-full w-full"
-                                onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + groupIdx * 3)}
+                                onClick={() =>
+                                  onOpenLightbox(
+                                    categoryStartIndexes[categoryIndex] +
+                                      groupIdx * 3,
+                                  )
+                                }
                                 aria-label={`Open ${cat.title} photo`}
                               >
-                                <img src={mainImage} alt="" className="w-full h-full object-cover" />
+                                <img
+                                  src={mainImage}
+                                  alt=""
+                                  className="w-full h-full object-cover"
+                                />
                               </button>
                             </div>
                           )}
@@ -404,10 +450,21 @@ export default function PhotoTour({
                                   key={subIdx}
                                   type="button"
                                   className="h-[148px] rounded-lg overflow-hidden bg-gray-100"
-                                  onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + groupIdx * 3 + subIdx + 1)}
+                                  onClick={() =>
+                                    onOpenLightbox(
+                                      categoryStartIndexes[categoryIndex] +
+                                        groupIdx * 3 +
+                                        subIdx +
+                                        1,
+                                    )
+                                  }
                                   aria-label={`Open ${cat.title} photo`}
                                 >
-                                  <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                                  <img
+                                    src={imgUrl}
+                                    alt=""
+                                    className="w-full h-full object-cover"
+                                  />
                                 </button>
                               ))}
                             </div>

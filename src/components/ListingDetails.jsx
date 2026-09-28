@@ -275,9 +275,11 @@ export default function ListingDetails() {
 
         {/* Description with 3-line clamp and fade out mask */}
         <p
-          className={isDescriptionExpanded
-            ? "text-base leading-6 text-[#222222]"
-            : "line-clamp-3 text-base leading-6 text-[#222222] [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]"}
+          className={
+            isDescriptionExpanded
+              ? "text-base leading-6 text-[#222222]"
+              : "line-clamp-3 text-base leading-6 text-[#222222] [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]"
+          }
         >
           {mockListing.description}
         </p>

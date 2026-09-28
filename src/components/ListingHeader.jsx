@@ -15,12 +15,10 @@ import Icon from "./Icon";
  * @author @itsnarutouzumaki
  */
 export default function ListingHeader({ saveState, onSave, onShare }) {
-
   return (
     <>
       {/* Top Navigation Bar */}
       <header className="flex h-[89px] w-100vw items-center justify-between border-b border-gray-200 bg-white px-18  font-sans">
-        
         {/* Left: Logo */}
         <div className="flex  items-center justify-start text-[#ff385c]">
           <AirbnbMark />
@@ -33,34 +31,51 @@ export default function ListingHeader({ saveState, onSave, onShare }) {
           aria-label="Search stays"
         >
           {/* Custom House Graphic Placeholder */}
-          <img src={mockListing.searchHouse} alt="Search house" className="h-12 w-12" />
-          
-          <span className="px-2 text-sm font-semibold text-gray-900">Anywhere</span>
+          <img
+            src={mockListing.searchHouse}
+            alt="Search house"
+            className="h-12 w-12"
+          />
+
+          <span className="px-2 text-sm font-semibold text-gray-900">
+            Anywhere
+          </span>
           <span className="h-6 w-[1px] mx-2 bg-gray-300"></span>
-          
-          <span className="px-2 text-sm font-semibold text-gray-900">Anytime</span>
+
+          <span className="px-2 text-sm font-semibold text-gray-900">
+            Anytime
+          </span>
           <span className="h-6 w-[1px] mx-2 bg-gray-300"></span>
-          
-          <span className="px-2 text-sm font-normal text-gray-500">Add guests</span>
-          
+
+          <span className="px-2 text-sm font-normal text-gray-500">
+            Add guests
+          </span>
+
           {/* Search Icon Button */}
           <span className="flex ml-4 h-8 w-8 items-center justify-center rounded-full bg-[#ff385c] text-white">
             <Icon size={14} className="stroke-[3px]">
               <circle cx="11" cy="11" r="6" />
-              <path d="m16 16 4 4" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="m16 16 4 4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </Icon>
           </span>
         </button>
 
         {/* Right: Account Navigation */}
-        <nav className="flex items-center justify-end gap-2" aria-label="Account navigation">
-          <button 
-            type="button" 
+        <nav
+          className="flex items-center justify-end gap-2"
+          aria-label="Account navigation"
+        >
+          <button
+            type="button"
             className="hidden rounded-full px-4 py-2 text-sm font-semibold text-gray-900 transition hover:bg-gray-100 lg:block"
           >
             Become a host
           </button>
-          
+
           {/* Globe Icon */}
           <button
             className="flex  h-10 w-10 items-center justify-center rounded-full bg-[#f2f2f2] text-gray-900 transition hover:bg-gray-200"
@@ -72,7 +87,7 @@ export default function ListingHeader({ saveState, onSave, onShare }) {
               <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
             </Icon>
           </button>
-          
+
           {/* Menu Icon */}
           <button
             className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f2f2f2] text-gray-900 transition hover:bg-gray-200"
@@ -93,18 +108,35 @@ export default function ListingHeader({ saveState, onSave, onShare }) {
         </h1>
 
         <div className="flex items-center gap-4 text-[14px]  font-semibold text-gray-900">
-          <button type="button" className="flex items-center gap-2 rounded-lg pt-3 transition hover:bg-gray-100" onClick={onShare}>
+          <button
+            type="button"
+            className="flex items-center gap-2 rounded-lg pt-3 transition hover:bg-gray-100"
+            onClick={onShare}
+          >
             <Icon size={18} className="stroke-[10px]">
-              <path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v7h14v-7" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M12 16V3m0 0L7 8m5-5 5 5M5 13v7h14v-7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </Icon>
             <span className="underline underline-offset-2">Share</span>
           </button>
-          
-          <button className="flex items-center gap-2 pt-3 rounded-lg transition hover:bg-gray-100" onClick={onSave}>
+
+          <button
+            className="flex items-center gap-2 pt-3 rounded-lg transition hover:bg-gray-100"
+            onClick={onSave}
+          >
             <Icon size={16} className="stroke-2">
-              <path d="M20.8 4.7c-2-2-5.2-1.9-7.1.1L12 6.5l-1.7-1.7c-2-2-5.2-2.1-7.1-.1-2.1 2.2-1.9 5.7.2 7.8L12 21l8.6-8.5c2.1-2.1 2.3-5.6.2-7.8Z" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M20.8 4.7c-2-2-5.2-1.9-7.1.1L12 6.5l-1.7-1.7c-2-2-5.2-2.1-7.1-.1-2.1 2.2-1.9 5.7.2 7.8L12 21l8.6-8.5c2.1-2.1 2.3-5.6.2-7.8Z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </Icon>
-            <span className="underline underline-offset-2">{saveState ?"Saved":"Save"}</span>
+            <span className="underline underline-offset-2">
+              {saveState ? "Saved" : "Save"}
+            </span>
           </button>
         </div>
       </div>

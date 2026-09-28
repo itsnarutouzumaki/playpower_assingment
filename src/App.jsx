@@ -55,9 +55,10 @@ function App() {
       const params = new URLSearchParams(window.location.search);
       const modal = params.get("modal");
       const modalItem = Number(params.get("modalItem"));
-      const photoIndex = modalItem >= 1000 && modalItem < 1000 + photoTourPhotos.length
-        ? modalItem - 1000
-        : null;
+      const photoIndex =
+        modalItem >= 1000 && modalItem < 1000 + photoTourPhotos.length
+          ? modalItem - 1000
+          : null;
 
       setModalState({
         isTourOpen: modal === "PHOTO_TOUR_SCROLLABLE",
@@ -75,7 +76,10 @@ function App() {
   const showToast = (message) => {
     setToastMessage(message);
     window.clearTimeout(toastTimeoutRef.current);
-    toastTimeoutRef.current = window.setTimeout(() => setToastMessage(""), 2500);
+    toastTimeoutRef.current = window.setTimeout(
+      () => setToastMessage(""),
+      2500,
+    );
   };
 
   useEffect(() => () => window.clearTimeout(toastTimeoutRef.current), []);
@@ -96,7 +100,11 @@ function App() {
     params.delete("modalItem");
     const newUrl = `${window.location.pathname}${params.toString() ? `?${params}` : ""}`;
     window.history.pushState({ path: newUrl }, "", newUrl);
-    setModalState({ isTourOpen: false, photoIndex: null, targetCategory: null });
+    setModalState({
+      isTourOpen: false,
+      photoIndex: null,
+      targetCategory: null,
+    });
     window.requestAnimationFrame(() => showPhotosRef.current?.focus());
   };
 

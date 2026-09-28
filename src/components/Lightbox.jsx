@@ -109,7 +109,12 @@ export default function Lightbox({
     >
       <div className="lightbox__backdrop" aria-hidden="true" />
       <header className="lightbox__header">
-        <p className="lightbox__counter" aria-live="polite" ref={liveRef} tabIndex={-1}>
+        <p
+          className="lightbox__counter"
+          aria-live="polite"
+          ref={liveRef}
+          tabIndex={-1}
+        >
           Photo {photoIndex + 1} of {total}
         </p>
         <button

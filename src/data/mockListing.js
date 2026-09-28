@@ -141,117 +141,117 @@ export const mockListing = {
     education: "NICMAR GOA",
   },
   amenities: [
-  { name: "Kitchen", icon: Utensils },
-  { name: "Wifi", icon: Wifi },
-  { name: "Dedicated workspace", icon: Briefcase },
-  { name: "Free parking on premises", icon: Car },
-  { name: "Pool", icon: Waves },
-  { name: "Hot tub", icon: Bath },
-  { name: "Pets allowed", icon: Dog },
-  { name: "Exterior security cameras on property", icon: Video },
-  { name: "Carbon monoxide alarm", icon: ShieldAlert },
-  { name: "Smoke alarm", icon: Bell },
+    { name: "Kitchen", icon: Utensils },
+    { name: "Wifi", icon: Wifi },
+    { name: "Dedicated workspace", icon: Briefcase },
+    { name: "Free parking on premises", icon: Car },
+    { name: "Pool", icon: Waves },
+    { name: "Hot tub", icon: Bath },
+    { name: "Pets allowed", icon: Dog },
+    { name: "Exterior security cameras on property", icon: Video },
+    { name: "Carbon monoxide alarm", icon: ShieldAlert },
+    { name: "Smoke alarm", icon: Bell },
   ],
-  amenitiesCategories : [
- {
-    category: "Bathroom",
-    items: [
-      { name: "Hairdryer", icon: Wind },
-      { name: "Cleaning products", icon: Sparkles },
-      { name: "Shampoo", icon: Droplet },
-      { name: "Hot water", icon: Flame },
-      { name: "Shower gel", icon: ShowerHead },
-    ],
-  },
-  {
-    category: "Bedroom and laundry",
-    items: [
-      { name: "Washing machine", icon: Disc },
-      { name: "Hangers", icon: Shirt },
-      { name: "Bed linen", icon: Bed },
-      { name: "Room-darkening blinds", icon: SunMoon },
-      { name: "Iron", icon: Shirt },
-      { name: "Clothes storage", icon: Box },
-      { name: "Cot", icon: Baby },
-    ],
-  },
-  {
-    category: "Entertainment",
-    items: [{ name: "TV", icon: Tv }],
-  },
-  {
-    category: "Family",
-    items: [{ name: "Cot", icon: Baby }],
-  },
-  {
-    category: "Heating and cooling",
-    items: [
-      { name: "Air conditioning", icon: AirVent },
-      { name: "Ceiling fan", icon: Fan },
-    ],
-  },
-  {
-    category: "Home safety",
-    items: [
-      { name: "Exterior security cameras on property", icon: Video },
-      { name: "Carbon monoxide alarm", icon: ShieldAlert },
-      { name: "Smoke alarm", icon: Bell },
-    ],
-  },
-  {
-    category: "Internet and office",
-    items: [
-      { name: "Wifi", icon: Wifi },
-      { name: "Dedicated workspace", icon: Briefcase },
-    ],
-  },
-  {
-    category: "Kitchen and dining",
-    items: [
-      { name: "Kitchen", icon: Utensils },
-      { name: "Fridge", icon: Refrigerator },
-      { name: "Freezer", icon: Refrigerator },
-      { name: "Microwave", icon: Microwave },
-      { name: "Cooking basics", icon: CookingPot },
-      { name: "Crockery and cutlery", icon: Utensils },
-      { name: "Kettle", icon: Coffee },
-      { name: "Coffee", icon: Coffee },
-      { name: "Wine glasses", icon: Wine },
-      { name: "Toaster", icon: CookingPot },
-      { name: "Blender", icon: GlassWater },
-      { name: "Cooker", icon: Flame },
-    ],
-  },
-  {
-    category: "Location features",
-    items: [{ name: "Private entrance", icon: Key }],
-  },
-  {
-    category: "Outdoor",
-    items: [
-      { name: "Patio or balcony", icon: Sun },
-      { name: "Outdoor dining area", icon: Trees },
-    ],
-  },
-  {
-    category: "Parking and facilities",
-    items: [
-      { name: "Free parking on premises", icon: Car },
-      { name: "Pool", icon: Waves },
-      { name: "Hot tub", icon: Bath },
-      { name: "Gym", icon: Dumbbell },
-    ],
-  },
-  {
-    category: "Services",
-    items: [
-      { name: "Pets allowed", icon: Dog },
-      { name: "Cleaning available during stay", icon: Sparkle },
-      { name: "Long-term stays allowed", icon: Calendar },
-      { name: "Self check-in", icon: KeyRound },
-    ],
-  },
-],
+  amenitiesCategories: [
+    {
+      category: "Bathroom",
+      items: [
+        { name: "Hairdryer", icon: Wind },
+        { name: "Cleaning products", icon: Sparkles },
+        { name: "Shampoo", icon: Droplet },
+        { name: "Hot water", icon: Flame },
+        { name: "Shower gel", icon: ShowerHead },
+      ],
+    },
+    {
+      category: "Bedroom and laundry",
+      items: [
+        { name: "Washing machine", icon: Disc },
+        { name: "Hangers", icon: Shirt },
+        { name: "Bed linen", icon: Bed },
+        { name: "Room-darkening blinds", icon: SunMoon },
+        { name: "Iron", icon: Shirt },
+        { name: "Clothes storage", icon: Box },
+        { name: "Cot", icon: Baby },
+      ],
+    },
+    {
+      category: "Entertainment",
+      items: [{ name: "TV", icon: Tv }],
+    },
+    {
+      category: "Family",
+      items: [{ name: "Cot", icon: Baby }],
+    },
+    {
+      category: "Heating and cooling",
+      items: [
+        { name: "Air conditioning", icon: AirVent },
+        { name: "Ceiling fan", icon: Fan },
+      ],
+    },
+    {
+      category: "Home safety",
+      items: [
+        { name: "Exterior security cameras on property", icon: Video },
+        { name: "Carbon monoxide alarm", icon: ShieldAlert },
+        { name: "Smoke alarm", icon: Bell },
+      ],
+    },
+    {
+      category: "Internet and office",
+      items: [
+        { name: "Wifi", icon: Wifi },
+        { name: "Dedicated workspace", icon: Briefcase },
+      ],
+    },
+    {
+      category: "Kitchen and dining",
+      items: [
+        { name: "Kitchen", icon: Utensils },
+        { name: "Fridge", icon: Refrigerator },
+        { name: "Freezer", icon: Refrigerator },
+        { name: "Microwave", icon: Microwave },
+        { name: "Cooking basics", icon: CookingPot },
+        { name: "Crockery and cutlery", icon: Utensils },
+        { name: "Kettle", icon: Coffee },
+        { name: "Coffee", icon: Coffee },
+        { name: "Wine glasses", icon: Wine },
+        { name: "Toaster", icon: CookingPot },
+        { name: "Blender", icon: GlassWater },
+        { name: "Cooker", icon: Flame },
+      ],
+    },
+    {
+      category: "Location features",
+      items: [{ name: "Private entrance", icon: Key }],
+    },
+    {
+      category: "Outdoor",
+      items: [
+        { name: "Patio or balcony", icon: Sun },
+        { name: "Outdoor dining area", icon: Trees },
+      ],
+    },
+    {
+      category: "Parking and facilities",
+      items: [
+        { name: "Free parking on premises", icon: Car },
+        { name: "Pool", icon: Waves },
+        { name: "Hot tub", icon: Bath },
+        { name: "Gym", icon: Dumbbell },
+      ],
+    },
+    {
+      category: "Services",
+      items: [
+        { name: "Pets allowed", icon: Dog },
+        { name: "Cleaning available during stay", icon: Sparkle },
+        { name: "Long-term stays allowed", icon: Calendar },
+        { name: "Self check-in", icon: KeyRound },
+      ],
+    },
+  ],
   unavailableAmenities: ["Carbon monoxide alarm", "Smoke alarm"],
   booking: {
     total: "₹28,499",
@@ -279,8 +279,7 @@ export const mockListing = {
     {
       id: 2,
       name: "Aheesh",
-      avatar:
-        "/reviewer/rev1.jpeg", 
+      avatar: "/reviewer/rev1.jpeg",
       tenure: "3 years on Airbnb",
       date: "2 weeks ago",
       rating: 5,
@@ -289,8 +288,7 @@ export const mockListing = {
     {
       id: 3,
       name: "Samiksha",
-      avatar:
-        "/reviewer/rev2.jpeg", 
+      avatar: "/reviewer/rev2.jpeg",
       tenure: "8 months on Airbnb",
       date: "May 2026",
       rating: 5,
@@ -308,8 +306,7 @@ export const mockListing = {
     {
       id: 5,
       name: "Vaibhav S",
-      avatar:
-        "/reviewer/rev3.jpeg", 
+      avatar: "/reviewer/rev3.jpeg",
       tenure: "3 years on Airbnb",
       date: "May 2026",
       rating: 5,
@@ -318,8 +315,7 @@ export const mockListing = {
     {
       id: 6,
       name: "Mohd",
-      avatar:
-        "/reviewer/rev4.jpeg", 
+      avatar: "/reviewer/rev4.jpeg",
       tenure: "5 years on Airbnb",
       date: "May 2026",
       rating: 5,
@@ -405,7 +401,13 @@ export const mockListing = {
       title: "Gym",
       amenities: ["Air conditioning", "Gym", "Exercise equipment"],
       coverImage: "gym/1.jpeg",
-      images: ["gym/1.jpeg", "gym/2.jpeg", "gym/3.jpeg", "gym/4.jpeg", "gym/5.jpeg"],
+      images: [
+        "gym/1.jpeg",
+        "gym/2.jpeg",
+        "gym/3.jpeg",
+        "gym/4.jpeg",
+        "gym/5.jpeg",
+      ],
     },
     {
       id: "exterior",
