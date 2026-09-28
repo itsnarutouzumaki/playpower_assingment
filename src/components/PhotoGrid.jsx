@@ -33,6 +33,14 @@ const PHOTO_ALTS = [
   "Apartment detail",
 ];
 
+const HERO_TARGET_CATEGORIES = [
+  "living-room-1",
+  "bedroom",
+  "full-bathroom",
+  "pool",
+  "additional",
+];
+
 export default function PhotoGrid({ onShowPhotos, showPhotosRef }) {
   const [hero, ...secondary] = mockListing.heroImages;
 
@@ -42,14 +50,22 @@ export default function PhotoGrid({ onShowPhotos, showPhotosRef }) {
       id="photos"
       aria-label={`Photos of ${mockListing.title}`}
     >
-      <img
-        className="photo-main hover:cursor-pointer !w-[850px]"
-        src={hero}
-        alt={`${mockListing.title} main view`}
-      />
-      {secondary.map((src, index) => (
+      <button
+        type="button"
+        className="contents"
+        onClick={() => onShowPhotos(HERO_TARGET_CATEGORIES[0])}
+        aria-label="Open main photo in Photo Tour"
+      >
         <img
+          className="photo-main hover:cursor-pointer !w-[850px]"
+          src={hero}
+          alt={`${mockListing.title} main view`}
+        />
+      </button>
+      {secondary.map((src, index) => (
+        <button
           key={src}
+          type="button"
           className={
             index === 1
               ? "top-right hover:cursor-pointer"
@@ -57,9 +73,11 @@ export default function PhotoGrid({ onShowPhotos, showPhotosRef }) {
                 ? "bottom-right hover:cursor-pointer"
                 : undefined
           }
-          src={src}
-          alt={PHOTO_ALTS[index]}
-        />
+          onClick={() => onShowPhotos(HERO_TARGET_CATEGORIES[index + 1])}
+          aria-label={`Open ${PHOTO_ALTS[index]} in Photo Tour`}
+        >
+          <img src={src} alt={PHOTO_ALTS[index]} />
+        </button>
       ))}
       <button
         ref={showPhotosRef}

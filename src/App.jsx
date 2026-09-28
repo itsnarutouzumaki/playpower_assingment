@@ -8,6 +8,7 @@ import ListingAfterCalendar from "./components/ListingAfterCalendar";
 import PhotoGrid from "./components/PhotoGrid";
 import MeetYourHost from "./components/MeetHost";
 import PhotoTour from "./components/PhotoTour";
+import { photoTourPhotos } from "./data/mockListing";
 
 /**
  * App
@@ -40,37 +41,107 @@ function App() {
   const showPhotosRef = useRef(null);
   const photoGridWrapperRef = useRef(null);
   const [isNavSticky, setIsNavSticky] = useState(false);
-  const [showPhotoTour, setShowPhotoTour] = useState(false);
+  const [modalState, setModalState] = useState({
+    isTourOpen: false,
+    photoIndex: null,
+    targetCategory: null,
+  });
+  const [saveState, setSaveState] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const toastTimeoutRef = useRef(null);
 
   useEffect(() => {
-    const checkPhotoParam = () => {
+    const readModalState = () => {
       const params = new URLSearchParams(window.location.search);
-      setShowPhotoTour(params.has("photo"));
+      const modal = params.get("modal");
+      const modalItem = Number(params.get("modalItem"));
+      const photoIndex = modalItem >= 1000 && modalItem < 1000 + photoTourPhotos.length
+        ? modalItem - 1000
+        : null;
+
+      setModalState({
+        isTourOpen: modal === "PHOTO_TOUR_SCROLLABLE",
+        photoIndex,
+        targetCategory: null,
+      });
     };
 
-    checkPhotoParam(); // Check when component mounts
+    readModalState();
 
-    window.addEventListener("popstate", checkPhotoParam);
-    return () => window.removeEventListener("popstate", checkPhotoParam);
+    window.addEventListener("popstate", readModalState);
+    return () => window.removeEventListener("popstate", readModalState);
   }, []);
 
-  const handleShowPhotos = () => {
-    const newUrl = `${window.location.pathname}?photo`;
+  const showToast = (message) => {
+    setToastMessage(message);
+    window.clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = window.setTimeout(() => setToastMessage(""), 2500);
+  };
+
+  useEffect(() => () => window.clearTimeout(toastTimeoutRef.current), []);
+
+  const handleShowPhotos = (targetCategory = null) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("modal", "PHOTO_TOUR_SCROLLABLE");
+    params.delete("modalItem");
+    params.delete("category");
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.pushState({ path: newUrl }, "", newUrl);
-    setShowPhotoTour(true); // 4. Switch to PhotoTour view
+    setModalState({ isTourOpen: true, photoIndex: null, targetCategory });
   };
 
   const handleClosePhotos = () => {
-    window.history.pushState(
-      { path: window.location.pathname },
-      "",
-      window.location.pathname,
-    );
-    setShowPhotoTour(false); // Switch back to listing view
+    const params = new URLSearchParams(window.location.search);
+    params.delete("modal");
+    params.delete("modalItem");
+    const newUrl = `${window.location.pathname}${params.toString() ? `?${params}` : ""}`;
+    window.history.pushState({ path: newUrl }, "", newUrl);
+    setModalState({ isTourOpen: false, photoIndex: null, targetCategory: null });
+    window.requestAnimationFrame(() => showPhotosRef.current?.focus());
+  };
+
+  const handleOpenLightbox = (photoIndex) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("modal", "PHOTO_TOUR_SCROLLABLE");
+    params.set("modalItem", String(1000 + photoIndex));
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({ path: newUrl }, "", newUrl);
+    setModalState((current) => ({ ...current, photoIndex }));
+  };
+
+  const handleNavigateLightbox = (photoIndex) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("modalItem", String(1000 + photoIndex));
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
+    setModalState((current) => ({ ...current, photoIndex }));
+  };
+
+  const handleCloseLightbox = () => {
+    const params = new URLSearchParams(window.location.search);
+    params.delete("modalItem");
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
+    setModalState((current) => ({ ...current, photoIndex: null }));
+  };
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard?.writeText(window.location.href);
+      showToast("Link copied");
+    } catch {
+      showToast("Link ready to share");
+    }
+  };
+
+  const handleSave = () => {
+    const nextSaveState = !saveState;
+    setSaveState(nextSaveState);
+    showToast(nextSaveState ? "Saved" : "Removed from saved places");
   };
 
   useEffect(() => {
-    if (showPhotoTour) return; // Skip observer if photo tour is active
+    if (modalState.isTourOpen) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -87,11 +158,25 @@ function App() {
     }
 
     return () => observer.disconnect();
-  }, [showPhotoTour]);
+  }, [modalState.isTourOpen]);
 
-  // 5. Render PhotoTour if ?photo is in URL, otherwise render main listing
-  if (showPhotoTour) {
-    return <PhotoTour onClose={handleClosePhotos} />;
+  if (modalState.isTourOpen) {
+    return (
+      <>
+        <PhotoTour
+          onClose={handleClosePhotos}
+          onOpenLightbox={handleOpenLightbox}
+          onNavigateLightbox={handleNavigateLightbox}
+          onCloseLightbox={handleCloseLightbox}
+          lightboxIndex={modalState.photoIndex}
+          targetCategory={modalState.targetCategory}
+          isSaved={saveState}
+          onSave={handleSave}
+          onShare={handleShare}
+        />
+        {toastMessage && <Toast message={toastMessage} />}
+      </>
+    );
   }
 
   // useEffect(() => {
@@ -115,7 +200,11 @@ function App() {
 
   return (
     <>
-      <ListingHeader />
+      <ListingHeader
+        saveState={saveState}
+        onSave={handleSave}
+        onShare={handleShare}
+      />
       <main className="relative">
         {/* Wrapper attached to ref so the observer knows when PhotoGrid is scrolled past */}
         <div ref={photoGridWrapperRef}>
@@ -144,7 +233,20 @@ function App() {
         <MeetYourHost />
         <ListingFooter />
       </main>
+      {toastMessage && <Toast message={toastMessage} />}
     </>
+  );
+}
+
+function Toast({ message }) {
+  return (
+    <div
+      className="fixed bottom-6 left-1/2 z-[100] -translate-x-1/2 rounded-lg bg-[#222222] px-4 py-3 text-sm font-semibold text-white shadow-lg"
+      role="status"
+      aria-live="polite"
+    >
+      {message}
+    </div>
   );
 }
 

@@ -330,6 +330,15 @@ h1 {
   width: 100%;
 }
 
+.photo-grid > button:not(.show-photos) {
+  background: none;
+  border: 0;
+  height: 100%;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
 .photo-grid .photo-main {
   border-radius: var(--radius-sm) 0 0 var(--radius-sm);
   grid-row: span 2;

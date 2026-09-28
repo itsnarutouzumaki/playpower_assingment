@@ -3,6 +3,7 @@ import { ChevronLeft, Share, Heart } from "lucide-react";
 // Replace this import with your actual mocklisting.js path
 import { mockListing } from "../data/mockListing";
 import { useEffect } from "react";
+import Lightbox from "./Lightbox";
 
 /**
  * PhotoTour
@@ -38,9 +39,18 @@ import { useEffect } from "react";
  *
  * @author @itsnarutouzumaki
  */
-export default function PhotoTour({ onClose }) {
-  // If mockListing data structure differs, fallback to sample room categories
-  const categories = mockListing?.photoCategories || [
+export default function PhotoTour({
+  onClose,
+  onOpenLightbox,
+  onNavigateLightbox,
+  onCloseLightbox,
+  lightboxIndex,
+  targetCategory,
+  isSaved,
+  onSave,
+  onShare,
+}) {
+  const categories = mockListing.photoCategories || [
     {
       id: "living-room-1",
       title: "Living room 1",
@@ -175,6 +185,13 @@ export default function PhotoTour({ onClose }) {
     },
   ];
 
+  const categoryStartIndexes = categories.reduce((indexes, category, index) => {
+    indexes[index] = index === 0
+      ? 0
+      : indexes[index - 1] + categories[index - 1].images.length;
+    return indexes;
+  }, []);
+
   const scrollToCategory = (id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -184,7 +201,7 @@ export default function PhotoTour({ onClose }) {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && lightboxIndex === null) {
         onClose();
       }
     };
@@ -196,7 +213,12 @@ export default function PhotoTour({ onClose }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onClose]);
+  }, [lightboxIndex, onClose]);
+
+  useEffect(() => {
+    if (!targetCategory) return;
+    document.getElementById(targetCategory)?.scrollIntoView({ behavior: "smooth" });
+  }, [targetCategory]);
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
@@ -215,11 +237,21 @@ export default function PhotoTour({ onClose }) {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="p-2 hover:bg-gray-100 rounded-full transition">
+          <button
+            className="p-2 hover:bg-gray-100 rounded-full transition"
+            type="button"
+            aria-label="Share photo tour"
+            onClick={onShare}
+          >
             <Share className="w-4 h-4 text-gray-800" />
           </button>
-          <button className="p-2 hover:bg-gray-100 rounded-full transition">
-            <Heart className="w-4 h-4 text-gray-800" />
+          <button
+            className="p-2 hover:bg-gray-100 rounded-full transition"
+            type="button"
+            aria-label={isSaved ? "Remove from saved places" : "Save photo tour"}
+            onClick={onSave}
+          >
+            <Heart className={`w-4 h-4 ${isSaved ? "fill-current text-[#ff385c]" : "text-gray-800"}`} />
           </button>
         </div>
       </header>
@@ -249,7 +281,7 @@ export default function PhotoTour({ onClose }) {
 
         {/* 3. Main Content Sections */}
         <div className="space-y-5 mb-25">
-          {categories.map((cat) => (
+          {categories.map((cat, categoryIndex) => (
             <div
               id={cat.id}
               key={cat.id}
@@ -296,24 +328,26 @@ export default function PhotoTour({ onClose }) {
                             return (
                               <div key={groupIdx} className="space-y-3">
                                 <div className="w-full h-[305px] rounded-lg overflow-hidden bg-gray-100">
-                                  <img
-                                    src={mainImage}
-                                    alt=""
-                                    className="w-full h-full object-cover"
-                                  />
+                                  <button
+                                    type="button"
+                                    className="h-full w-full"
+                                    onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + groupIdx * 3)}
+                                    aria-label={`Open ${cat.title} photo`}
+                                  >
+                                    <img src={mainImage} alt="" className="w-full h-full object-cover" />
+                                  </button>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                   {subImages.map((imgUrl, subIdx) => (
-                                    <div
+                                    <button
                                       key={subIdx}
+                                      type="button"
                                       className="h-[148px] rounded-lg overflow-hidden bg-gray-100"
+                                      onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + groupIdx * 3 + subIdx + 1)}
+                                      aria-label={`Open ${cat.title} photo`}
                                     >
-                                      <img
-                                        src={imgUrl}
-                                        alt=""
-                                        className="w-full h-full object-cover"
-                                      />
-                                    </div>
+                                      <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                                    </button>
                                   ))}
                                 </div>
                               </div>
@@ -324,16 +358,15 @@ export default function PhotoTour({ onClose }) {
                         {/* Last 2 images rendered side-by-side in small boxes */}
                         <div className="grid grid-cols-2 gap-3">
                           {lastTwoImages.map((imgUrl, idx) => (
-                            <div
+                            <button
                               key={idx}
+                              type="button"
                               className="h-[148px] rounded-lg overflow-hidden bg-gray-100"
+                              onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + fullGroupsCount * 3 + idx)}
+                              aria-label={`Open ${cat.title} photo`}
                             >
-                              <img
-                                src={imgUrl}
-                                alt=""
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
+                              <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                            </button>
                           ))}
                         </div>
                       </div>
@@ -353,27 +386,29 @@ export default function PhotoTour({ onClose }) {
                         <div key={groupIdx} className="space-y-3">
                           {mainImage && (
                             <div className="w-full h-[305px] rounded-lg overflow-hidden bg-gray-100">
-                              <img
-                                src={mainImage}
-                                alt=""
-                                className="w-full h-full object-cover"
-                              />
+                              <button
+                                type="button"
+                                className="h-full w-full"
+                                onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + groupIdx * 3)}
+                                aria-label={`Open ${cat.title} photo`}
+                              >
+                                <img src={mainImage} alt="" className="w-full h-full object-cover" />
+                              </button>
                             </div>
                           )}
 
                           {subImages.length > 0 && (
                             <div className="grid grid-cols-2 gap-3">
                               {subImages.map((imgUrl, subIdx) => (
-                                <div
+                                <button
                                   key={subIdx}
+                                  type="button"
                                   className="h-[148px] rounded-lg overflow-hidden bg-gray-100"
+                                  onClick={() => onOpenLightbox(categoryStartIndexes[categoryIndex] + groupIdx * 3 + subIdx + 1)}
+                                  aria-label={`Open ${cat.title} photo`}
                                 >
-                                  <img
-                                    src={imgUrl}
-                                    alt=""
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
+                                  <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                                </button>
                               ))}
                             </div>
                           )}
@@ -387,6 +422,13 @@ export default function PhotoTour({ onClose }) {
           ))}
         </div>
       </div>
+      <Lightbox
+        isOpen={lightboxIndex !== null}
+        photoIndex={lightboxIndex ?? 0}
+        onClose={onCloseLightbox}
+        onPrev={() => onNavigateLightbox(lightboxIndex - 1)}
+        onNext={() => onNavigateLightbox(lightboxIndex + 1)}
+      />
     </div>
   );
 }

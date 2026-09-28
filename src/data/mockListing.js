@@ -349,7 +349,110 @@ export const mockListing = {
     apartment04,
     apartment05,
   ],
+  photoCategories: [
+    {
+      id: "living-room-1",
+      title: "Living room 1",
+      amenities: ["Sofa", "Air conditioning", "Ceiling fan", "TV"],
+      coverImage: "Living1/1.jpeg",
+      images: ["Living1/1.jpeg", "Living1/3.jpeg", "Living1/2.jpeg"],
+    },
+    {
+      id: "living-room-2",
+      title: "Living room 2",
+      amenities: ["Ceiling fan", "Hot tub"],
+      coverImage: "Living2/1.jpeg",
+      images: [
+        "Living2/1.jpeg",
+        "Living2/3.jpeg",
+        "Living2/2.jpeg",
+        "Living2/4.jpeg",
+        "Living2/5.jpeg",
+        "Living2/6.jpeg",
+        "Living2/7.jpeg",
+      ],
+    },
+    {
+      id: "full-kitchen",
+      title: "Full kitchen",
+      amenities: ["Freezer", "Fridge", "Blender", "Cooker", "Cooking basics"],
+      coverImage: "kitchen/1.jpeg",
+      images: ["kitchen/1.jpeg", "kitchen/2.jpeg"],
+    },
+    {
+      id: "bedroom",
+      title: "Bedroom",
+      amenities: ["Double bed", "Air conditioning", "Bed linen", "Wifi"],
+      coverImage: "bedroom/1.jpeg",
+      images: [
+        "bedroom/1.jpeg",
+        "bedroom/2.jpeg",
+        "bedroom/3.jpeg",
+        "bedroom/4.jpeg",
+        "bedroom/5.jpeg",
+        "bedroom/6.jpeg",
+      ],
+    },
+    {
+      id: "full-bathroom",
+      title: "Full bathroom",
+      amenities: ["Hairdryer", "Hot water", "Shampoo", "Shower gel"],
+      coverImage: "/bathroom/1.jpeg",
+      images: ["/bathroom/1.jpeg"],
+    },
+    {
+      id: "gym",
+      title: "Gym",
+      amenities: ["Air conditioning", "Gym", "Exercise equipment"],
+      coverImage: "gym/1.jpeg",
+      images: ["gym/1.jpeg", "gym/2.jpeg", "gym/3.jpeg", "gym/4.jpeg", "gym/5.jpeg"],
+    },
+    {
+      id: "exterior",
+      title: "Exterior",
+      coverImage: "exterior/1.jpeg",
+      images: [
+        "exterior/1.jpeg",
+        "exterior/2.jpeg",
+        "exterior/3.jpeg",
+        "exterior/4.jpeg",
+        "exterior/5.jpeg",
+        "exterior/6.jpeg",
+      ],
+    },
+    {
+      id: "pool",
+      title: "Pool",
+      amenities: ["Pool"],
+      coverImage: "pool/1.jpeg",
+      images: ["pool/1.jpeg", "pool/2.jpeg", "pool/3.jpeg"],
+    },
+    {
+      id: "additional",
+      title: "Additional photos",
+      coverImage: "additional/1.jpeg",
+      images: [
+        "additional/1.jpeg",
+        "additional/2.jpeg",
+        "additional/3.jpeg",
+        "additional/4.jpeg",
+        "additional/5.jpeg",
+        "additional/6.jpeg",
+        "additional/7.jpeg",
+        "additional/8.jpeg",
+        "additional/9.jpeg",
+        "additional/10.jpeg",
+      ],
+    },
+  ],
   searchHouse: house,
 };
+
+export const photoTourPhotos = mockListing.photoCategories.flatMap((category) =>
+  category.images.map((src) => ({
+    categoryId: category.id,
+    src,
+  })),
+);
 
 export default mockListing;

@@ -1,7 +1,8 @@
 import { useRef } from "react";
-import mockListing from "../data/mockListing";
+import { photoTourPhotos } from "../data/mockListing";
 import useFocusTrap from "../hooks/useFocusTrap";
 import useKeyboardNav from "../hooks/useKeyboardNav";
+import useScrollLock from "../hooks/useScrollLock";
 import Icon from "./Icon";
 
 /**
@@ -81,11 +82,12 @@ export default function Lightbox({
 }) {
   const dialogRef = useRef(null);
   const liveRef = useRef(null);
-  const total = mockListing.galleryImages.length;
+  const total = photoTourPhotos.length;
   const isFirst = photoIndex === 0;
   const isLast = photoIndex === total - 1;
 
   useFocusTrap(dialogRef, isOpen);
+  useScrollLock(isOpen);
   const handleClose = () => onClose();
 
   useKeyboardNav({
@@ -135,7 +137,7 @@ export default function Lightbox({
         </button>
         <img
           className="lightbox__image"
-          src={mockListing.galleryImages[photoIndex]}
+          src={photoTourPhotos[photoIndex]?.src}
           alt={PHOTO_ALTS[photoIndex] ?? `Photo ${photoIndex + 1}`}
         />
         <button

@@ -152,6 +152,7 @@ export default function ListingDetails() {
     mockListing;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   // Close modal when pressing ESC key & prevent background scrolling
   useEffect(() => {
@@ -273,7 +274,11 @@ export default function ListingDetails() {
         </div>
 
         {/* Description with 3-line clamp and fade out mask */}
-        <p className="line-clamp-3 text-base leading-6 text-[#222222] [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]">
+        <p
+          className={isDescriptionExpanded
+            ? "text-base leading-6 text-[#222222]"
+            : "line-clamp-3 text-base leading-6 text-[#222222] [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]"}
+        >
           {mockListing.description}
         </p>
 
@@ -281,8 +286,9 @@ export default function ListingDetails() {
         <button
           type="button"
           className="inline-flex items-center gap-1.5 font-semibold text-[17px] text-[#222222] underline underline-offset-4 hover:text-black"
+          onClick={() => setIsDescriptionExpanded((expanded) => !expanded)}
         >
-          Show more{" "}
+          {isDescriptionExpanded ? "Show less" : "Show more"}{" "}
           <Icon size={17} className="stroke-[2.5]">
             <path d="m9 18 6-6-6-6" />
           </Icon>
@@ -321,8 +327,9 @@ export default function ListingDetails() {
 
         <div className="grid grid-cols-2 gap-x-4 gap-y-6">
           {mockListing.amenities.map((amenity) => {
-            const isUnavailable =
-              mockListing.unavailableAmenities?.includes(amenity.name);
+            const isUnavailable = mockListing.unavailableAmenities?.includes(
+              amenity.name,
+            );
 
             const IconComponent = amenity.icon;
 
