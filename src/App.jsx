@@ -134,12 +134,21 @@ function App() {
   };
 
   const handleShare = async () => {
+    if (typeof navigator.clipboard?.writeText !== "function") {
+      showToast("Link ready to share");
+      return;
+    }
+
     try {
-      await navigator.clipboard?.writeText(window.location.href);
+      await navigator.clipboard.writeText(window.location.href);
       showToast("Link copied");
     } catch {
       showToast("Link ready to share");
     }
+  };
+
+  const handleReserve = () => {
+    showToast("Reservation ready to book");
   };
 
   const handleSave = () => {
@@ -235,9 +244,11 @@ function App() {
 
         <div className="page-width listing-content">
           <ListingDetails />
-          <BookingCard />
+          <BookingCard onReserve={handleReserve} />
         </div>
-        <ListingAfterCalendar />
+        <div className="page-width">
+          <ListingAfterCalendar />
+        </div>
         <MeetYourHost />
         <ListingFooter />
       </main>

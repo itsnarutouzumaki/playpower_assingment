@@ -37,6 +37,9 @@ export default function ListingAfterCalendar() {
   const [reviewSummary, setReviewSummary] = useState("");
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summaryError, setSummaryError] = useState("");
+  const [expandedReviews, setExpandedReviews] = useState({});
+  const [neighbourhoodOpen, setNeighbourhoodOpen] = useState(false);
+  const [mapZoom, setMapZoom] = useState(0);
 
   const summarizeReviews = async () => {
     setIsSummarizing(true);
@@ -78,6 +81,7 @@ export default function ListingAfterCalendar() {
         });
         throw new Error(
           `Server returned invalid JSON (HTTP ${response.status})`,
+          { cause: parseError },
         );
       }
 
@@ -97,9 +101,9 @@ export default function ListingAfterCalendar() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl font-sans text-[#222222]">
+    <div className="w-full font-sans text-[#222222]">
       {/* --- Reviews Section --- */}
-      <section className="py-12 px-12" id="reviews">
+      <section className="py-12" id="reviews">
         {/* 1. Giant Rating Header */}
         <div className="flex flex-col items-center justify-center text-center">
           <div className="flex items-center justify-center gap-1">
@@ -134,7 +138,7 @@ export default function ListingAfterCalendar() {
         </div>
 
         {/* 2. Rating Breakdown Columns */}
-        <div className="mt-14 px-14 flex w-full items-stretch pb-10">
+        <div className="mt-14 flex w-full items-stretch pb-10">
           {/* Overall Rating (Progress Bars) */}
           <div className="flex w-[18%] min-w-[150px] flex-col pr-6 border-r border-[#ebebeb]">
             <h3 className="mb-4 text-[14px] font-semibold text-[#222222]">
@@ -299,7 +303,7 @@ export default function ListingAfterCalendar() {
         </div>
 
         {/* 3. Review Tags */}
-        <div className="mt-2 px-8 flex w-full overflow-x-auto gap-3 pb-2 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none]">
+        <div className="mt-2 flex w-full overflow-x-auto gap-3 pb-2 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none]">
           {reviewTags.map((tag) => (
             <button
               key={tag.label}
@@ -348,7 +352,7 @@ export default function ListingAfterCalendar() {
         </div>
 
         {/* 4. Review Grid */}
-        <div className="mt-5 px-8 grid grid-cols-1 md:grid-cols-2 gap-x-[80px] gap-y-[44px]">
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-x-[80px] gap-y-[44px]">
           {reviews.map((review, i) => (
             <article className="flex flex-col" key={review.name}>
               {/* Author Header */}
@@ -398,15 +402,25 @@ export default function ListingAfterCalendar() {
               </div>
 
               {/* Review Text */}
-              <p className="text-[14px]  text-[#222222] pr-4">{review.text}</p>
+              <p className="pr-4 text-[14px] text-[#222222]">
+                {expandedReviews[review.id]
+                  ? review.text
+                  : `${review.text.slice(0, 160)}${review.text.length > 160 ? "..." : ""}`}
+              </p>
 
               {/* Show more button */}
               {(i === 1 || i === 3) && (
                 <button
                   type="button"
                   className="mt-2 self-start text-[16px] font-semibold text-[#222222] underline underline-offset-2 transition hover:text-black"
+                  onClick={() =>
+                    setExpandedReviews((current) => ({
+                      ...current,
+                      [review.id]: !current[review.id],
+                    }))
+                  }
                 >
-                  Show more
+                  {expandedReviews[review.id] ? "Show less" : "Show more"}
                 </button>
               )}
             </article>
@@ -423,7 +437,7 @@ export default function ListingAfterCalendar() {
       </section>
 
       {/* --- Location Section --- */}
-      <section className="pt-12 px-20 border-t border-[#ebebeb]" id="location">
+      <section className="pt-12 border-t border-[#ebebeb]" id="location">
         <h2 className="text-[22px] font-semibold text-[#222222]">
           Where you’ll be
         </h2>
@@ -432,25 +446,55 @@ export default function ListingAfterCalendar() {
           Candolim, Goa, India
         </p>
 
-        {/* Mock Map Image Box */}
+        {/* CSS-only map scene keeps the location visual usable without a remote map tile. */}
         <div
-          className="mt-4 mb-4 flex h-[480px] w-full flex-col items-center justify-center rounded-2xl bg-[#e5e3df] relative overflow-hidden"
-          role="img"
+          className="map-scene mt-4 mb-4 h-[480px] w-full rounded-2xl"
           aria-label={`Map showing ${location}`}
+          style={{ "--map-scale": [1, 1.18, 1.4][mapZoom] }}
         >
-          <div className="relative z-10 flex flex-col items-center">
-            <span className="rounded-full bg-[#de1262] h-12 w-12 flex items-center justify-center text-white shadow-lg">
-              <Icon size={24} className="fill-current stroke-none">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" />
-              </Icon>
-            </span>
-            <span className="mt-2 rounded-lg bg-white px-3 py-1 text-sm font-bold shadow-md text-[#222222]">
-              Candolim
-            </span>
+          <div className="map-scene__surface" aria-hidden="true">
+            <div className="map-scene__water" />
+            <div className="map-scene__shore" />
+            <div className="map-scene__grid" />
+            <div className="map-scene__halos" />
+          </div>
+          <button
+            type="button"
+            className="map-scene__search"
+            aria-label="Search this area"
+          >
+            <Icon size={16}>
+              <circle cx="11" cy="11" r="6" />
+              <path d="m16 16 4 4" strokeLinecap="round" />
+            </Icon>
+          </button>
+          <div className="map-scene__marker" aria-hidden="true">
+            <Icon size={24} className="fill-current stroke-none">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" />
+            </Icon>
+          </div>
+          <span className="map-scene__label">Candolim</span>
+          <div className="map-scene__zoom" aria-label="Map zoom controls">
+            <button
+              type="button"
+              aria-label="Zoom in"
+              onClick={() => setMapZoom((zoom) => Math.min(2, zoom + 1))}
+              disabled={mapZoom === 2}
+            >
+              +
+            </button>
+            <button
+              type="button"
+              aria-label="Zoom out"
+              onClick={() => setMapZoom((zoom) => Math.max(0, zoom - 1))}
+              disabled={mapZoom === 0}
+            >
+              −
+            </button>
           </div>
         </div>
 
-        <p className=" text-[16px] font-normal leading-relaxed text-[#222222] max-w-[650px]">
+        <p className="text-[16px] font-normal leading-relaxed text-[#222222]">
           Exact location will be provided after booking.
         </p>
 
@@ -460,18 +504,21 @@ export default function ListingAfterCalendar() {
           </h3>
 
           {/* Description */}
-          <p className="text-[#222222] font-normal leading-relaxed text-sm sm:text-base pb-2">
+          <p className="pb-2 text-sm font-normal leading-relaxed text-[#222222] sm:text-base">
             Located in the heart of Candolim, Amor de Goa offers a peaceful stay
             with easy access to beaches, cafés, and popular attractions.
+            {neighbourhoodOpen &&
+              " Spend the day at Candolim Beach, browse local markets, or enjoy the restaurants and nightlife along the coast before returning to a quieter residential setting."}
           </p>
 
           {/* Show More Link with Chevron */}
           <button
             type="button"
-            className="flex items-center gap-1 w-fit pt-1 font-semibold text-lg sm:text-base cursor-pointer hover:opacity-80"
+            className="flex w-fit cursor-pointer items-center gap-1 pt-1 text-lg font-semibold hover:opacity-80 sm:text-base"
+            onClick={() => setNeighbourhoodOpen((open) => !open)}
           >
             <span className="underline underline-offset-4 decoration-1">
-              Show more
+              {neighbourhoodOpen ? "Show less" : "Show more"}
             </span>
             <svg
               className="w-4 h-4 translate-y-[0.5px]"

@@ -16,68 +16,58 @@ const nearbyStays = [
     title: "Beautiful Studio with a view to die for",
     price: "₹23,600",
     rating: "4.91",
-    image:
-      "/nearby/s1.jpeg",
+    image: "/nearby/s1.jpeg",
   },
   {
     id: 2,
     title: "NAQAB - 1bhk with private pool",
     price: "₹12,218",
     rating: "4.95",
-    image:
-      "/nearby/s2.jpeg",
+    image: "/nearby/s2.jpeg",
   },
   {
     id: 3,
     title: "Greentique Luxury Flat with plunge pool, Calangute",
     price: "₹44,506",
     rating: "4.94",
-    image:
-      "/nearby/s3.jpeg",
+    image: "/nearby/s3.jpeg",
   },
   {
     id: 4,
     title: "The Tropical Studio | 5 mins to Beach",
     price: "₹22,824",
     rating: "4.96",
-    image:
-      "/nearby/s4.jpeg",
+    image: "/nearby/s4.jpeg",
   },
   {
     id: 5,
     title: "Luxury Casa Bella 1BHK with plunge pool, Calangute",
     price: "₹39,942",
     rating: "4.95",
-    image:
-      "/nearby/s5.jpeg",
+    image: "/nearby/s5.jpeg",
   },
   {
     id: 6,
     title: "Kanso by Earthen Window | Jacuzzi | Terrace | Pool",
     price: "₹45,648",
     rating: "5.0",
-    image:
-      "/nearby/s6.jpeg",
+    image: "/nearby/s6.jpeg",
   },
   {
     id: 7,
     title: "Luxury Apt | Private Pool | 6 Mins from Beach",
     price: "₹48,786",
     rating: "4.93",
-    image:
-      "/nearby/s2.jpeg",
+    image: "/nearby/s2.jpeg",
   },
   {
     id: 7,
     title: "Serendipity Cottage - Calm Stay in Calangute-Baga.",
     price: "22,824",
     rating: "4.92",
-    image:
-      "/nearby/s4.jpeg",
+    image: "/nearby/s4.jpeg",
   },
 ];
-
-
 
 /**
  * ListingFooterDetails (file: ListingFooter.jsx)
@@ -117,7 +107,7 @@ export default function ListingFooterDetails() {
   };
 
   return (
-    <div className="max-w-7xl mx-40 px-10 py-8 text-[#222222] font-sans">
+    <div className="page-width py-8 text-[#222222] font-sans">
       {/* SECTION 1: Things to know */}
       <section className="border-y border-gray-200 py-12 mt-4">
         <h2 className="text-xl text-[22px] font-semibold pb-5">
@@ -184,64 +174,64 @@ export default function ListingFooterDetails() {
 
       {/* SECTION 2: More stays nearby */}
       <section className="pt-10">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold">More stays nearby</h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold">More stays nearby</h2>
 
-        {/* Controls */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => scroll("left")}
-            className="p-2 rounded-full border border-gray-300 hover:border-black cursor-pointer transition"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="p-2 rounded-full border border-gray-300 hover:border-black cursor-pointer transition"
-            aria-label="Scroll right"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+          {/* Controls */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => scroll("left")}
+              className="p-2 rounded-full border border-gray-300 hover:border-black cursor-pointer transition"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="p-2 rounded-full border border-gray-300 hover:border-black cursor-pointer transition"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Scrollable Container showing 5 items at a time */}
-      <div
-        ref={scrollContainerRef}
-        className="flex overflow-x-auto gap-5 no-scrollbar scroll-smooth"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {nearbyStays.map((stay) => (
-          <div
-            key={stay.id}
-            className="group cursor-pointer shrink-0 w-[calc((100%-4*1.25rem)/5)]"
-          >
-            {/* Image Container */}
-            <div className="h-52 overflow-hidden rounded-sm bg-gray-200 mb-3">
-              <img
-                src={stay.image}
-                alt={stay.title}
-                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
+        {/* Scrollable Container showing 5 items at a time */}
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto gap-5 no-scrollbar scroll-smooth"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {nearbyStays.map((stay) => (
+            <div
+              key={stay.id}
+              className="group cursor-pointer shrink-0 w-[calc((100%-4*1.25rem)/5)]"
+            >
+              {/* Image Container */}
+              <div className="h-52 overflow-hidden rounded-sm bg-gray-200 mb-3">
+                <img
+                  src={stay.image}
+                  alt={stay.title}
+                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
 
-            {/* Text Info */}
-            <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug">
-              {stay.title}
-            </h4>
+              {/* Text Info */}
+              <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug">
+                {stay.title}
+              </h4>
 
-            <div className="flex items-center text-xs mt-1 gap-2">
-              <span className="font-normal text-gray-900">{stay.price}</span>
-              <div className="flex items-center">
-                <Star className="w-2.5 h-2.5 fill-black text-black inline mr-1" />
-                <span className="text-xs text-gray-700">{stay.rating}</span>
+              <div className="flex items-center text-xs mt-1 gap-2">
+                <span className="font-normal text-gray-900">{stay.price}</span>
+                <div className="flex items-center">
+                  <Star className="w-2.5 h-2.5 fill-black text-black inline mr-1" />
+                  <span className="text-xs text-gray-700">{stay.rating}</span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

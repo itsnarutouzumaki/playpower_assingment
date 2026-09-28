@@ -42,7 +42,7 @@ export default function MeetYourHost() {
     setImgErrors((prev) => ({ ...prev, [id]: true }));
   };
   return (
-    <section className="mx-40 max-w-7xl pt-12 font-sans md:px-10">
+    <section className="page-width pt-12 font-sans">
       <h2 className="pb-6 text-[22px] font-semibold text-[#222222]">
         Meet your host
       </h2>

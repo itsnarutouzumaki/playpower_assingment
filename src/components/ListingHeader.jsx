@@ -124,12 +124,20 @@ export default function ListingHeader({ saveState, onSave, onShare }) {
           </button>
 
           <button
-            className="flex items-center gap-2 pt-3 rounded-lg transition hover:bg-gray-100"
+            className={`flex items-center gap-2 rounded-lg pt-3 transition hover:bg-gray-100 ${
+              saveState ? "text-[#ff385c]" : "text-gray-900"
+            }`}
+            aria-pressed={saveState}
             onClick={onSave}
+            type="button"
           >
-            <Icon size={16} className="stroke-2">
+            <Icon
+              size={16}
+              className={`stroke-2 ${saveState ? "fill-current" : ""}`}
+            >
               <path
                 d="M20.8 4.7c-2-2-5.2-1.9-7.1.1L12 6.5l-1.7-1.7c-2-2-5.2-2.1-7.1-.1-2.1 2.2-1.9 5.7.2 7.8L12 21l8.6-8.5c2.1-2.1 2.3-5.6.2-7.8Z"
+                fill={saveState ? "currentColor" : "none"}
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />

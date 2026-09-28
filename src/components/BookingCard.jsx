@@ -19,7 +19,7 @@ import Icon from "./Icon";
  *
  * @author @itsnarutouzumaki
  */
-export default function BookingCard() {
+export default function BookingCard({ onReserve }) {
   const { booking, discount } = mockListing;
 
   return (
@@ -33,12 +33,31 @@ export default function BookingCard() {
           {/* Green Tag Icon */}
           <div className="flex h-8 w-8 items-center justify-center">
             {discount ? (
-              <img src={discount} alt="Discount tag" className="h-full w-full object-contain" />
+              <img
+                src={discount}
+                alt="Discount tag"
+                className="h-full w-full object-contain"
+              />
             ) : (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#3b8754]">
-                <path d="M11.25 2.25L2.25 11.25C1.83579 11.6642 1.83579 12.3358 2.25 12.75L11.25 21.75C11.6642 22.1642 12.3358 22.1642 12.75 21.75L21.75 12.75C22.1642 12.3358 22.1642 11.6642 21.75 11.25L12.75 2.25C12.3358 1.83579 11.6642 1.83579 11.25 2.25Z" fill="currentColor" />
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="text-[#3b8754]"
+              >
+                <path
+                  d="M11.25 2.25L2.25 11.25C1.83579 11.6642 1.83579 12.3358 2.25 12.75L11.25 21.75C11.6642 22.1642 12.3358 22.1642 12.75 21.75L21.75 12.75C22.1642 12.3358 22.1642 11.6642 21.75 11.25L12.75 2.25C12.3358 1.83579 11.6642 1.83579 11.25 2.25Z"
+                  fill="currentColor"
+                />
                 <circle cx="16.5" cy="7.5" r="1.5" fill="white" />
-                <path d="M4 14L1 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path
+                  d="M4 14L1 17"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
               </svg>
             )}
           </div>
@@ -135,6 +154,7 @@ export default function BookingCard() {
         {/* Reserve Button (Rounded Rectangle, not pill) */}
         <button
           type="button"
+          onClick={onReserve}
           className="w-full rounded-xl bg-[#de1262] py-3.5 text-center text-[16px] font-semibold text-white transition-colors hover:bg-[#c00f53] active:scale-[0.98]"
         >
           Reserve
@@ -158,7 +178,9 @@ export default function BookingCard() {
         >
           <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z" />
         </svg>
-        <span className="underline underline-offset-2">Report this listing</span>
+        <span className="underline underline-offset-2">
+          Report this listing
+        </span>
       </button>
     </aside>
   );

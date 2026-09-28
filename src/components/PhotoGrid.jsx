@@ -34,11 +34,11 @@ const PHOTO_ALTS = [
 ];
 
 const HERO_TARGET_CATEGORIES = [
-  "living-room-1",
+  "living-room-2",
+  "living-room-2",
+  "living-room-2",
   "bedroom",
-  "full-bathroom",
-  "pool",
-  "additional",
+  "exterior",
 ];
 
 export default function PhotoGrid({ onShowPhotos, showPhotosRef }) {

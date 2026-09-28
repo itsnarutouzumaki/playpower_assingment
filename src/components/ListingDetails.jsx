@@ -153,6 +153,21 @@ export default function ListingDetails() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const calendarPairs = [
+    [
+      { title: "October 2026", startDay: 4, days: 31 },
+      { title: "November 2026", startDay: 0, days: 30 },
+    ],
+    [
+      { title: "November 2026", startDay: 0, days: 30 },
+      { title: "December 2026", startDay: 2, days: 31 },
+    ],
+    [
+      { title: "December 2026", startDay: 2, days: 31 },
+      { title: "January 2027", startDay: 5, days: 31 },
+    ],
+  ];
+  const [calendarIndex, setCalendarIndex] = useState(0);
 
   // Close modal when pressing ESC key & prevent background scrolling
   useEffect(() => {
@@ -382,7 +397,9 @@ export default function ListingDetails() {
           <button
             type="button"
             aria-label="Previous month"
-            className="absolute -left-3 -top-1 z-10 flex h-8 w-8 items-center justify-center rounded-full text-[#222222] transition-colors hover:bg-gray-100"
+            className="absolute -left-3 -top-1 z-10 flex h-8 w-8 items-center justify-center rounded-full text-[#222222] transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-30"
+            onClick={() => setCalendarIndex((index) => Math.max(0, index - 1))}
+            disabled={calendarIndex === 0}
           >
             <svg
               viewBox="0 0 32 32"
@@ -399,14 +416,21 @@ export default function ListingDetails() {
           </button>
 
           {/* The internal Calendar components */}
-          <CalendarMonth title="October 2026" startDay={4} days={31} />
-          <CalendarMonth title="November 2026" startDay={0} days={30} />
+          {calendarPairs[calendarIndex].map((month) => (
+            <CalendarMonth key={month.title} {...month} />
+          ))}
 
           {/* Absolute Right Arrow */}
           <button
             type="button"
             aria-label="Next month"
-            className="absolute -right-3 -top-1 z-10 flex h-8 w-8 items-center justify-center rounded-full text-[#222222] transition-colors hover:bg-gray-100"
+            className="absolute -right-3 -top-1 z-10 flex h-8 w-8 items-center justify-center rounded-full text-[#222222] transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-30"
+            onClick={() =>
+              setCalendarIndex((index) =>
+                Math.min(calendarPairs.length - 1, index + 1),
+              )
+            }
+            disabled={calendarIndex === calendarPairs.length - 1}
           >
             <svg
               viewBox="0 0 32 32"
