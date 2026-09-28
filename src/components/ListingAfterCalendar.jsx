@@ -34,71 +34,9 @@ const reviewTags = [
 
 export default function ListingAfterCalendar() {
   const { summary, ratingImage, reviews, location } = mockListing;
-  const [reviewSummary, setReviewSummary] = useState("");
-  const [isSummarizing, setIsSummarizing] = useState(false);
-  const [summaryError, setSummaryError] = useState("");
   const [expandedReviews, setExpandedReviews] = useState({});
   const [neighbourhoodOpen, setNeighbourhoodOpen] = useState(false);
   const [mapZoom, setMapZoom] = useState(0);
-
-  const summarizeReviews = async () => {
-    setIsSummarizing(true);
-    setSummaryError("");
-    console.info("[review-summary] request:start", {
-      endpoint: "/api/summarize-reviews",
-      reviewCount: reviews.length,
-    });
-
-    try {
-      const response = await fetch("/api/summarize-reviews", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reviews: reviews.map((review) => review.text) }),
-      });
-      const contentType = response.headers.get("content-type");
-      const body = await response.text();
-
-      console.info("[review-summary] response:received", {
-        status: response.status,
-        ok: response.ok,
-        contentType,
-        contentLength: response.headers.get("content-length"),
-      });
-      console.info("[review-summary] response:body", {
-        bodyLength: body.length,
-        bodyPreview: body.slice(0, 200),
-      });
-
-      let result;
-      try {
-        result = body ? JSON.parse(body) : {};
-      } catch (parseError) {
-        console.error("[review-summary] response:parse-error", {
-          error: parseError.message,
-          status: response.status,
-          bodyLength: body.length,
-          bodyPreview: body.slice(0, 200),
-        });
-        throw new Error(
-          `Server returned invalid JSON (HTTP ${response.status})`,
-          { cause: parseError },
-        );
-      }
-
-      if (!response.ok) {
-        throw new Error(result.error || "Unable to summarize reviews");
-      }
-
-      setReviewSummary(result.summary);
-    } catch (error) {
-      console.error("[review-summary] request:error", {
-        message: error.message,
-      });
-      setSummaryError(error.message || "Unable to summarize reviews");
-    } finally {
-      setIsSummarizing(false);
-    }
-  };
 
   return (
     <div className="w-full font-sans text-[#222222]">
@@ -326,29 +264,6 @@ export default function ListingAfterCalendar() {
               <span className="text-[#717171]">{tag.count}</span>
             </button>
           ))}
-        </div>
-
-        <div className="mx-8 mt-6">
-          <button
-            className="rounded-[12px] border border-black bg-white px-[20px] py-[12px] text-[16px] font-semibold text-[#222222] transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
-            type="button"
-            onClick={summarizeReviews}
-            disabled={isSummarizing}
-          >
-            {isSummarizing ? "Summarizing reviews..." : "Summarize reviews"}
-          </button>
-
-          {reviewSummary && (
-            <p className="mt-4 max-w-3xl rounded-xl bg-[#f7f7f7] px-5 py-4 text-[15px] leading-relaxed text-[#222222]">
-              {reviewSummary}
-            </p>
-          )}
-
-          {summaryError && (
-            <p className="mt-3 text-[14px] text-[#b42318]" role="alert">
-              {summaryError}
-            </p>
-          )}
         </div>
 
         {/* 4. Review Grid */}
